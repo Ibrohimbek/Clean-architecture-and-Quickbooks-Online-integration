@@ -1,0 +1,48 @@
+### Project ###
+docs/_build/
+docs/locale/
+qb_online/media/*
+qb_online/static/*
+/qb_online/qb_online/settings/local.py
+/.vagrant
+coverage.xml
+junit-*.xml
+junit.xml
+
+### OS X ###
+.DS_Store
+*~
+
+### Python ###
+*.py[cod]
+.cache
+__pycache__
+
+# Translations
+*.mo
+
+### Django ###
+*.log
+*.pot
+
+### PyCharm ###
+.idea
+
+### Celery ###
+celerybeat.pid
+celerybeat-schedule
+
+### Others ###
+/.project
+/.pydevproject
+
+### Test related ###
+.coverage
+htmlcov
+backend-coverage
+.tox
+
+### Vagrant ###
+deployment/dev/vagrant/setup.retry
+
+

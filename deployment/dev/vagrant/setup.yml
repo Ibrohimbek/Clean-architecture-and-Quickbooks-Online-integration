@@ -1,0 +1,116 @@
+---
+- hosts: all
+  remote_user: ubuntu
+  sudo: yes
+  vars:
+    project_name: qb_online
+    home_dir: /home/ubuntu/
+    project_dir: "{{ home_dir }}qb-online/"
+
+    venvs_dir: "{{ home_dir }}envs/"
+    venv_name: "{{ project_name }}"
+    venv_dir: "{{ venvs_dir }}{{ venv_name }}"
+
+    reqs_path: "{{ project_dir }}requirements/dev.txt"
+
+    pgsql_version: 9.5
+    pgsql_db_name: "{{ project_name }}"
+
+  pre_tasks:
+    - name: 'install python2'
+      raw: sudo apt-get -y install python-simplejson
+
+  tasks:
+    - name: Install required packages
+      apt: pkg={{ item }} state=latest update_cache=yes
+      with_items:
+        - git
+        - build-essential
+        - python-dev
+        - python3.5-dev
+        - python-pip
+        - libcairo2
+        - libpango1.0-0
+        - libgdk-pixbuf2.0-0
+        - libffi-dev
+        - shared-mime-info
+        - poppler-utils
+        - libssl-dev
+        - libxml2-dev
+        - libxslt-dev
+        - lib32z1-dev
+        - libjpeg-dev
+        - libxslt1-dev
+        - libxslt1.1
+
+        - rabbitmq-server
+        - supervisor
+        - postgresql-{{ pgsql_version }}
+        - libpq-dev
+
+    - name: 'Accept License'
+      shell: 'echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections'
+    - apt: pkg=ttf-mscorefonts-installer
+
+    - name: pgsql config
+      template: src=pg_hba.conf dest=/etc/postgresql/{{ pgsql_version }}/main/
+
+    - name: restart pgsql
+      service: name=postgresql state=restarted
+
+    - name: create pgsql db
+      action: shell createdb -U postgres {{ pgsql_db_name }}
+      ignore_errors: yes
+
+    - name: virtualenvwrapper
+      pip: name=virtualenvwrapper
+
+    - name: update .bashrc
+      lineinfile:
+        dest=/home/ubuntu/.bashrc
+        line="export WORKON_HOME={{ venvs_dir }}"
+        regexp="^export WORKON_HOME"
+
+    - name: update .bashrc
+      lineinfile:
+        dest=/home/ubuntu/.bashrc
+        line="source /usr/local/bin/virtualenvwrapper.sh"
+        regexp="^source \/usr\/local\/bin\/virtualenvwrapper\.sh"
+
+    - name: create virtualenv
+      sudo: yes
+      sudo_user: ubuntu
+      shell: >
+        executable=/bin/bash
+        export WORKON_HOME={{ venvs_dir }} && source /usr/local/bin/virtualenvwrapper.sh && mkvirtualenv {{ venv_name }} -p /usr/bin/python3.5
+      register: run_cmd
+
+    - debug: var=run_cmd.stdout_lines
+
+    - name: update .bashrc
+      lineinfile:
+        dest=/home/ubuntu/.bashrc
+        line="workon {{ venv_name }}"
+        regexp="^workon "
+
+    - name: copy project dir into .project
+      shell: >
+        executable=/bin/bash
+        echo "{{ project_dir }}" > {{ venv_dir }}/.project
+
+    - name: install requirements
+      shell: >
+        executable=/bin/bash
+        {{ venv_dir }}/bin/pip install -r {{ reqs_path }}
+      register: run_cmd
+
+    - debug: var=run_cmd.stdout_lines
+
+    - name: copy worker config
+      template: src=celery/worker.conf dest=/etc/supervisor/conf.d/
+
+    - name: copy beat config
+      template: src=celery/beat.conf dest=/etc/supervisor/conf.d/
+
+    - name: restart supervisor
+      service: name=supervisor state=restarted
