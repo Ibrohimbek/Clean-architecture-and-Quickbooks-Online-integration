@@ -6,7 +6,7 @@ from .base import BaseModel
 
 
 class ServiceItem(BaseModel):
-    company = models.ForeignKey('qb_online.Company', related_name='service_items')
+    company = models.ForeignKey('qbo_app.Company', related_name='service_items')
 
     uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 

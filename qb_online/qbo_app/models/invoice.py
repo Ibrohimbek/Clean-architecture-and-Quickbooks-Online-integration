@@ -7,12 +7,12 @@ from .base import BaseModel
 
 class Invoice(BaseModel):
     uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    order = models.ForeignKey('qb_online.Order', related_name='invoices')
+    order = models.ForeignKey('qbo_app.Order', related_name='invoices')
 
     invoice_number = models.CharField('Invoice Number', max_length=11, blank=True)
     invoice_date = models.DateTimeField('Invoice Date')
 
-    customer = models.ForeignKey('qb_online.Customer', related_name='invoices')
+    customer = models.ForeignKey('qbo_app.Customer', related_name='invoices')
     payment_term = models.CharField('Term name', max_length=100, blank=True)
 
     # Result information

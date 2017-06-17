@@ -6,7 +6,7 @@ from .base import BaseModel
 
 
 class PaymentTerm(BaseModel):
-    company = models.ForeignKey('qb_online.Company', related_name='payment_terms')
+    company = models.ForeignKey('qbo_app.Company', related_name='payment_terms')
 
     uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 

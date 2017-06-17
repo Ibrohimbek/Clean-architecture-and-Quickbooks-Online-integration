@@ -6,7 +6,7 @@ from .base import BaseModel
 
 
 class Customer(BaseModel):
-    company = models.ForeignKey('qb_online.Company', related_name='customers')
+    company = models.ForeignKey('qbo_app.Company', related_name='customers')
 
     uid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     qbo_id = models.CharField(max_length=100)

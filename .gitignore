@@ -3,7 +3,7 @@ docs/_build/
 docs/locale/
 qb_online/media/*
 qb_online/static/*
-/qb_online/qb_online/settings/local.py
+/qb_online/config/settings/local.py
 /.vagrant
 coverage.xml
 junit-*.xml
