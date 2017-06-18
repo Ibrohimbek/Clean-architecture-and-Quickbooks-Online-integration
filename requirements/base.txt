@@ -4,3 +4,9 @@ Django==1.11.2
 djangorestframework==3.6.3
 
 psycopg2==2.7.1
+
+# Testing packages
+pytest
+tox
+coverage
+pytest-cov

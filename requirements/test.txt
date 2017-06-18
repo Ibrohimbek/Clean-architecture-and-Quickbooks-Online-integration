@@ -1,0 +1,6 @@
+-r base.txt
+
+pip
+wheel
+flake8
+Sphinx

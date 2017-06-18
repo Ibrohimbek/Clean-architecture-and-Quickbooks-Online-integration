@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+from django.conf import global_settings
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,8 +30,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,9 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'qbo_app',
 
+    'rest_framework',
+
+    'qbo_app',
 ]
+# Application definition
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -118,8 +121,33 @@ USE_L10N = True
 
 USE_TZ = True
 
+DATETIME_INPUT_FORMATS = global_settings.DATETIME_INPUT_FORMATS + [
+    '%m/%d/%Y %I:%M:%S %p',
+    '%Y-%m-%d %I:%M:%S %p',
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'driveaway.authentication.UserAuthentication',
+    # ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated'
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
+    # 'EXCEPTION_HANDLER': 'driveaway.exceptions.driveaway_exception_handler',
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 100,
+    'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
+    'DATETIME_INPUT_FORMATS': DATETIME_INPUT_FORMATS + ['iso-8601'],
+    'COERCE_DECIMAL_TO_STRING': False,
+    'COMPACT_JSON': False,
+}

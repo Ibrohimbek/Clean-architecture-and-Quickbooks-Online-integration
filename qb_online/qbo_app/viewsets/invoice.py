@@ -1,9 +1,12 @@
+import json
+
 from qb_online.database.invoice import InvoiceRepository
+from rest_framework.views import APIView
 
 from qb_online.core.adapters.invoice import InvoiceAdapter
 
 
-class InvoiceAPIView(APIView):
+class InvoiceViewSet(APIView):
     def __init__(self, *args, **kwargs):
         self.super().__init__(*args, **kwargs)
         self.adapter = InvoiceAdapter(InvoiceRepository())
