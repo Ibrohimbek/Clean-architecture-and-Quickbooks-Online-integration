@@ -1,6 +1,6 @@
 from typing import Iterable
 
-from qb_online.domain import Invoice
+from qb_online.core.entities.invoice import Invoice
 
 
 class InvoiceRepository:
