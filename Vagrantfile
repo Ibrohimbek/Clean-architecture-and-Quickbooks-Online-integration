@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.network :private_network, type: "dhcp"
   config.vm.network :public_network, bridge: 'en0: Wi-Fi (AirPort)'
 
-  config.vm.synced_folder ".", "/home/ubuntu/qb-online"
+  config.vm.synced_folder ".", "/home/ubuntu/qb-online", type: "nfs"
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "v"
