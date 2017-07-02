@@ -1,7 +1,7 @@
 from typing import Iterable, Dict, Optional, NamedTuple
 
-from qb_online.core.repositories.invoice import InvoiceRepository
-from qb_online.core.use_cases.invoice import InvoiceUseCase
+from qb_online.core.repositories.invoice_repository import InvoiceRepository
+from qb_online.core.use_cases.invoice_use_case import InvoiceUseCase
 
 from qb_online.core.entities.invoice import Invoice
 
@@ -19,10 +19,10 @@ class InvoiceData(NamedTuple):
 class InvoiceAdapter:
 
     def __init__(self, repository: InvoiceRepository):
-        self.usecase = InvoiceUseCase(repository)
+        self.use_case = InvoiceUseCase(repository)
 
     def get_list(self, filters: Optional[Dict[str, str]]) -> Iterable[InvoiceData]:
-        invoices = self.usecase.get_list(filters)
+        invoices = self.use_case.get_list(filters)
         invoices_data = []
         for invoice in invoices:
             invoices_data.append(self._invoice_to_data(invoice))
@@ -30,7 +30,7 @@ class InvoiceAdapter:
 
     def create(self, invoice_data: InvoiceData) -> InvoiceData:
         invoice = self._data_to_invoice(invoice_data)
-        invoice = self.usecase.create(invoice)
+        invoice = self.use_case.create(invoice)
         return self._invoice_to_data(invoice)
 
     @classmethod

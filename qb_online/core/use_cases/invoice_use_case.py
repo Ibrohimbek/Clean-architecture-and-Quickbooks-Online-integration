@@ -3,6 +3,19 @@
 # from qb_online.core.repositories.invoice import InvoiceRepository
 # from qb_online.core.entities.invoice import Invoice
 
+from qb_online.core.shared import response_object as res
+from qb_online.core.shared import use_case as uc
+
+
+class InvoiceListUseCase(uc.UseCase):
+
+    def __init__(self, repository):
+        self.repository = repository
+
+    def process_request(self, request_object):
+        domain_storageroom = self.repository.list(filters=request_object.filters)
+        return res.ResponseSuccess(domain_storageroom)
+
 
 # class InvoiceUseCase:
 #
@@ -26,12 +39,3 @@
 #
 #     def _validate_invoice_number(self, invoice: Invoice):
 #         pass
-
-
-class InvoiceListUseCase:
-
-    def __init__(self, repo):
-        self.repo = repo
-
-    def execute(self):
-        return self.repo.list()

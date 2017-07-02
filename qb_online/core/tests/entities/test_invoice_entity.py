@@ -1,7 +1,7 @@
 import uuid
 from datetime import datetime
 
-from qb_online.core.entities.invoice import Invoice
+from qb_online.core.domain.invoice import Invoice
 
 
 def test_invoice_entity_init():

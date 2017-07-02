@@ -1,7 +1,7 @@
 import json
 
-from qb_online.serializers.invoice import InvoiceEncoder
-from qb_online.core.entities.invoice import Invoice
+from qb_online.core.domain.invoice import Invoice
+from qb_online.core.serializers.invoice_serializer import InvoiceEncoder
 
 
 def test_serialize_entity_invoice():
