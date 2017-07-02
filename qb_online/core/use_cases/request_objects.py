@@ -19,4 +19,3 @@ class InvoiceListRequestObject(ValidRequestObject):
             return invalid_req
 
         return InvoiceListRequestObject(filters=adict.get('filters'))
-

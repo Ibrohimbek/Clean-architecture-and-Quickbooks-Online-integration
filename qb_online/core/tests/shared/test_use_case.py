@@ -1,6 +1,7 @@
 from unittest import mock
 
-from qb_online.core.shared import request_object as req, response_object as res
+from qb_online.core.shared import request_object as req
+from qb_online.core.shared import response_object as res
 from qb_online.core.shared import use_case as uc
 
 

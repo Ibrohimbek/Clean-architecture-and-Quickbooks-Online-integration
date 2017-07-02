@@ -48,4 +48,3 @@ class InvoiceRepository:
 #     # def atomic(self) -> ContextManager:
 #     #     raise NotImplementedError()
 #
-

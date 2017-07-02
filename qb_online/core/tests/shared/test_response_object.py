@@ -96,5 +96,3 @@ def test_response_failure_build_system_error():
     assert bool(response) is False
     assert response.type == res.ResponseFailure.SYSTEM_ERROR
     assert response.message == "test message"
-
-

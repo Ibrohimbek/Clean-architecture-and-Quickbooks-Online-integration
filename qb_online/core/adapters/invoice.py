@@ -1,9 +1,8 @@
-from typing import Iterable, Dict, Optional, NamedTuple
-
-from qb_online.core.repositories.invoice_repository import InvoiceRepository
-from qb_online.core.use_cases.invoice_use_case import InvoiceUseCase
+from typing import Dict, Iterable, NamedTuple, Optional
 
 from qb_online.core.entities.invoice import Invoice
+from qb_online.core.repositories.invoice_repository import InvoiceRepository
+from qb_online.core.use_cases.invoice_use_case import InvoiceUseCase
 
 
 class InvoiceLineData(NamedTuple):

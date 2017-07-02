@@ -2,10 +2,9 @@ from unittest import mock
 
 import pytest
 
-from qb_online.core.domain.invoice import Invoice
 from qb_online.core.shared import response_object as res
-from qb_online.core.use_cases import invoice_use_case as uc, request_objects as req
-
+from qb_online.core.use_cases import invoice_use_case as uc
+from qb_online.core.use_cases import request_objects as req
 
 invoice_1 = {
     'uid': 'f853578c-fc0f-4e65-81b8-566c5dffa35a',
@@ -95,5 +94,5 @@ def test_invoice_list_handles_bad_request():
     assert bool(response_object) is False
     assert response_object.value == {
         'type': res.ResponseFailure.PARAMETERS_ERROR,
-        'mess
+        'message': "filters: Is not iterable"
     }
